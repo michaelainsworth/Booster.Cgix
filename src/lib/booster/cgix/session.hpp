@@ -30,15 +30,13 @@ namespace booster {
         private:
             
             session_storage *storage_;
-            T t_;
+            data_type data_;
             
         };
         
         template<typename T, const char* SessionCookieName>
         session<T,SessionCookieName>::session(connection& con, session_storage& storage)
             : storage_(&storage) {
-                
-                // TODO: If response headers already sent, throw!
             
                 const request& req = con.request();
                 cookie_map& cookies = request.cookies();
@@ -48,11 +46,27 @@ namespace booster {
                     throw std::system_error(error::http_headers_already_sent, get_error_category());
                 }
                 
+                bool create_new_session = false;
+                
                 if (!cookies.is_set(session_cookie_name)) {
-                    string_type session_id = storage_->generate_session_id(session_cookie_name);
-                    response << cookie(session_cookie_name, session_id);
+                    create_new_session = true;
+                } else {
+                    string_type session_id = cookies.get(session_cookie_name);
+                    if (!storage_->has_session(session_id)) {
+                        create_new_session = true;
+                    } else {
+                        if (storage_->is_session_expired(session_id)) {
+                            create_new_session = true;
+                        }
+                    }
                 }
-                //cookie_map::string_type
+                
+                if (create_new_session) {
+                    string_type session_id = storage_->generate_session_id();
+                    response << cookie(session_cookie_name, session_id);
+                } else {
+                    storage_->load(t_);
+                }
         }
         
         template<typename T, const char* SessionCookieName>

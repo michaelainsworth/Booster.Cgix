@@ -2,22 +2,39 @@
 #define BOOSTER_CGIX_SESSION_STORAGE_HPP_INCLUDED
 
 #include <string>
+#include <booster/cgix/error_condition.hpp>
 
 namespace booster {
     namespace cgix {
         
-        // TODO: Finish storage implementation, including obtaining session ID, etc, from request.
-        template<typename S>
-        class session_storage_base {
+        class session_storage {
         public:
             
-            template<typename T>
-            void load(const S& session_id, T& t) {}
+            typedef std::string string_type;
+            
+            virtual ~session_storage() {};
+            
+            virtual bool has_session(const string_type& session_id) = 0;
+            virtual bool is_session_expired(const string_type& session_id) = 0;
+            virtual string_type generate_session_id() = 0;
             
             template<typename T>
-            void save(const S& session_id, const T& t) {}
+            void load(const string_type& session_id, T& t);
+            
+            template<typename T>
+            void save(const string_type& session_id, T& t);
             
         };
+        
+        template<typename T>
+        void session_storage::load(const string_type& session_id, T& t) {
+            throw std::system_error(error::implementation_required);
+        }
+        
+        template<typename T>
+        void session_storage::save(const string_type& session_id, T& t) {
+            throw std::system_error(error::implementation_required);
+        }
         
     }
 }

@@ -22,7 +22,10 @@ namespace booster {
             cookie_string_char_unexpected,
             http_header_malformed,
             http_header_not_set,
-            http_headers_already_sent
+            http_headers_already_sent,
+            session_file_directory_invalid,
+            
+            implementation_required
         };
         
         const error_category& get_error_category();
