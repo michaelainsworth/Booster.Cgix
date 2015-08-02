@@ -9,23 +9,23 @@
 namespace booster {
     namespace cgix {
         
-        static const char* default_session_cookie_name;
-        
         class session_storage;
         
-        template<typename T, const char* SessionCookieName = default_session_cookie_name>
-        class session {
+        template<typename T>
+        class basic_session {
         public:
             
-            typedef T data_type;
             typedef std::string string_type;
-            static const char* session_cookie_name = SessionCookieName;
+            typedef T  data_type;
+            typedef T* pointer_type;
+            typedef T& reference_type;
+            
             
             // TODO: Add a constructor with default session storage (e.g., file_session_storage
-            session(connection& con, session_storage& storage);
+            basic_session(connection& con, session_storage& storage);
             
-            T& operator *();
-            T* operator ->();
+            reference_type operator *();
+            pointer_type operator ->();
             
         private:
             
@@ -34,19 +34,21 @@ namespace booster {
             
         };
         
-        template<typename T, const char* SessionCookieName>
-        session<T,SessionCookieName>::session(connection& con, session_storage& storage)
+        template<typename T>
+        basic_session<T>::basic_session(connection& con, session_storage& storage)
             : storage_(&storage) {
             
                 const request& req = con.request();
-                cookie_map& cookies = request.cookies();
+                const cookie_map& cookies = req.cookies();
                 response& resp = con.response();
                 
                 if (resp.are_headers_sent()) {
-                    throw std::system_error(error::http_headers_already_sent, get_error_category());
+                    throw std::system_error(error::http_headers_already_sent);
                 }
                 
                 bool create_new_session = false;
+                
+                string_type session_cookie_name = storage_->session_cookie_name();
                 
                 if (!cookies.is_set(session_cookie_name)) {
                     create_new_session = true;
@@ -63,20 +65,20 @@ namespace booster {
                 
                 if (create_new_session) {
                     string_type session_id = storage_->generate_session_id();
-                    response << cookie(session_cookie_name, session_id);
+                    resp << cookie(session_cookie_name, session_id);
                 } else {
-                    storage_->load(t_);
+                    storage_->load(data_);
                 }
         }
         
-        template<typename T, const char* SessionCookieName>
-        T* session<T,SessionCookieName>::operator ->() {
-            return &t_;
+        template<typename T>
+        typename basic_session<T>::reference_type basic_session<T>::operator *() {
+            return data_;
         }
         
-        template<typename T, const char* SessionCookieName>
-        T& session<T,SessionCookieName>::operator ->() {
-            return &t_;
+        template<typename T>
+        typename basic_session<T>::pointer_type basic_session<T>::operator ->() {
+            return &data_;
         }
 
         

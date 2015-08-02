@@ -24,6 +24,7 @@ namespace booster {
             http_header_not_set,
             http_headers_already_sent,
             session_file_directory_invalid,
+            connection_not_initialized,
             
             implementation_required
         };

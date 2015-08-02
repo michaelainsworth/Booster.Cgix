@@ -13,31 +13,32 @@ namespace booster {
         public:
             
             typedef unsigned long long duration;
+            typedef std::string string_type;
             
             // Lifecycle
-            cookie(const std::string& name, const std::string& value);
-            cookie(const std::string& name, const std::string& value, duration seconds);
-            cookie(const std::string& name, const std::string& value, bool secure, bool http_only, duration seconds);
-            cookie(const std::string& name, const std::string& value, const std::string& domain, const std::string& path, bool secure, bool http_only, duration seconds);
+            cookie(const string_type& name, const string_type& value);
+            cookie(const string_type& name, const string_type& value, duration seconds);
+            cookie(const string_type& name, const string_type& value, bool secure, bool http_only, duration seconds);
+            cookie(const string_type& name, const string_type& value, const string_type& domain, const string_type& path, bool secure, bool http_only, duration seconds);
             
             // Accessors
-            const std::string& name() const;
-            const std::string& value() const;
-            const std::string& domain() const;
-            const std::string& path() const;
+            const string_type& name() const;
+            const string_type& value() const;
+            const string_type& domain() const;
+            const string_type& path() const;
             duration seconds() const;
             bool is_secure() const;
             bool is_http_only() const;
             
             // Output
-            operator std::string() const;
+            operator string_type() const;
             
         private:
             
-            std::string name_;
-            std::string value_;
-            std::string domain_;
-            std::string path_;
+            string_type name_;
+            string_type value_;
+            string_type domain_;
+            string_type path_;
             bool secure_;
             bool http_only_;
             duration seconds_;

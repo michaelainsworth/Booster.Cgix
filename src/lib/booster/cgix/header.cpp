@@ -42,11 +42,11 @@ namespace booster
         bool header::is_text(const char *c, size_t length) {
             //text           = <any OCTET except ctls,
             //but including lws>
-            if (!is_ctl(c[0]) || is_lws(c, length)) return true;
+            if (!is_ctl(c[0]) || lws_length(c, length)) return true;
             return false;
         }
         
-        size_t header::is_lws(const char *c, size_t length) {
+        size_t header::lws_length(const char *c, size_t length) {
             //lws            = [CRLF] 1*( sp | ht )
             if (length < 3) return 0;
             if (c[0] == '\r' && c[1] == '\n' && (is_sp(c[2]) || is_ht(c[2]))) {
@@ -80,7 +80,7 @@ namespace booster
             return r;
         }
         
-        std::error_condition header::from_string(header& h, const std::string& header_string) {
+        std::error_condition header::from_string(header& h, const value_string_type& header_string) {
             
             //message-header = field-name ":" [ field-value ]
             //field-name     = token
@@ -102,8 +102,8 @@ namespace booster
                     return error::http_header_malformed;
                 }
                 
-                h.name_ = std::string(&header_string[0], i);
-                h.value_ = std::string(&header_string[i+1], header_string.length() - i - 1);
+                h.name_ = name_string_type(&header_string[0], i);
+                h.value_ = value_string_type(&header_string[i+1], header_string.length() - i - 1);
                 break;
             }
             
@@ -121,7 +121,7 @@ namespace booster
             
             // Trim leading lws
             if (h.value_.length()) {
-                size_t l = is_lws(&h.value_[0], h.value_.length());
+                size_t l = lws_length(&h.value_[0], h.value_.length());
                 if (l) {
                     h.value_ = h.value_.substr(l - 1);
                 }
@@ -184,213 +184,218 @@ namespace booster
         
         // Lifecycle
         
-        header::header(const std::string& name, const std::string& value) : name_(name), value_(value) {}
+        header::header(const name_string_type& name, const value_string_type& value) : name_(name), value_(value) {}
         
-        header::operator std::string() const {
-            return name_ + ": " + value_;
+        header::operator value_string_type() const {
+            value_string_type str(name_.c_str(), name_.length());
+            for (value_string_type::size_type i = 0, l = str.length(); i < l; ++i) {
+                str[i] = std::tolower(str[i]);
+            }
+            
+            return str + ": " + value_;
         }
         
         // Accessors
-        const std::string& header::name() const {
+        const header::name_string_type& header::name() const {
             return name_;
         }
         
-        const std::string& header::value() const {
+        const header::value_string_type& header::value() const {
             return value_;
         }
         
         // Entity headers
-        header allow(const std::string& value) {
+        header header::allow(const value_string_type& value) {
             return header("Allow", value);
         }
         
-        header content_encoding(const std::string& value) {
+        header header::content_encoding(const value_string_type& value) {
             return header("Content-Encoding", value);
         }
         
-        header content_language(const std::string& value) {
+        header header::content_language(const value_string_type& value) {
             return header("Content-Language", value);
         }
         
-        header content_length(const std::string& value) {
+        header header::content_length(const value_string_type& value) {
             return header("Content-Length", value);
         }
         
-        header content_location(const std::string& value) {
+        header header::content_location(const value_string_type& value) {
             return header("Content-Location", value);
         }
         
-        header content_md5(const std::string& value) {
+        header header::content_md5(const value_string_type& value) {
             return header("Content-MD5", value);
         }
         
-        header content_range(const std::string& value) {
+        header header::content_range(const value_string_type& value) {
             return header("Content-Range", value);
         }
         
-        header content_type(const std::string& value) {
+        header header::content_type(const value_string_type& value) {
             return header("Content-Type", value);
         }
         
-        header expires(const std::string& value) {
+        header header::expires(const value_string_type& value) {
             return header("Expires", value);
         }
         
-        header last_modified(const std::string& value) {
+        header header::last_modified(const value_string_type& value) {
             return header("Last-Modified", value);
         }
         
         
         // General headers
-        header connection(const std::string& value) {
+        header header::connection_header(const value_string_type& value) {
             return header("Connection", value);
         }
         
-        header date(const std::string& value) {
+        header header::date(const value_string_type& value) {
             return header("Date", value);
         }
         
-        header pragma(const std::string& value) {
+        header header::pragma(const value_string_type& value) {
             return header("Pragma", value);
         }
         
-        header trailer(const std::string& value) {
+        header header::trailer(const value_string_type& value) {
             return header("Trailer", value);
         }
         
-        header transfer_encoding(const std::string& value) {
+        header header::transfer_encoding(const value_string_type& value) {
             return header("Transfer-Encoding", value);
         }
         
-        header upgrade(const std::string& value) {
+        header header::upgrade(const value_string_type& value) {
             return header("Upgrade", value);
         }
         
-        header via(const std::string& value) {
+        header header::via(const value_string_type& value) {
             return header("Via", value);
         }
         
-        header warning(const std::string& value) {
+        header header::warning(const value_string_type& value) {
             return header("Warning", value);
         }
         
         
         // Request headers
-        header accept(const std::string& value) {
+        header header::accept(const value_string_type& value) {
             return header("Accept", value);
         }
         
-        header accept_charset(const std::string& value) {
+        header header::accept_charset(const value_string_type& value) {
             return header("Accept-Charset", value);
         }
         
-        header accept_encoding(const std::string& value) {
+        header header::accept_encoding(const value_string_type& value) {
             return header("Accept-Encoding", value);
         }
         
-        header accept_language(const std::string& value) {
+        header header::accept_language(const value_string_type& value) {
             return header("Accept-Language", value);
         }
         
-        header authorization(const std::string& value) {
+        header header::authorization(const value_string_type& value) {
             return header("Authorization", value);
         }
         
-        header cache_control(const std::string& value) {
+        header header::cache_control(const value_string_type& value) {
             return header("Cache-Control", value);
         }
         
-        header expect(const std::string& value) {
+        header header::expect(const value_string_type& value) {
             return header("Expect", value);
         }
         
-        header from(const std::string& value) {
+        header header::from(const value_string_type& value) {
             return header("From", value);
         }
         
-        header host(const std::string& value) {
+        header header::host(const value_string_type& value) {
             return header("Host", value);
         }
         
-        header if_match(const std::string& value) {
+        header header::if_match(const value_string_type& value) {
             return header("If-Match", value);
         }
         
-        header if_modified_since(const std::string& value) {
+        header header::if_modified_since(const value_string_type& value) {
             return header("If-Modified-Since", value);
         }
         
-        header if_none_match(const std::string& value) {
+        header header::if_none_match(const value_string_type& value) {
             return header("If-None-Match", value);
         }
         
-        header if_range(const std::string& value) {
+        header header::if_range(const value_string_type& value) {
             return header("If-Range", value);
         }
         
-        header if_unmodified_since(const std::string& value) {
+        header header::if_unmodified_since(const value_string_type& value) {
             return header("If-Unmodified-Since", value);
         }
         
-        header max_forwards(const std::string& value) {
+        header header::max_forwards(const value_string_type& value) {
             return header("Max-Forwards", value);
         }
         
-        header proxy_authorization(const std::string& value) {
+        header header::proxy_authorization(const value_string_type& value) {
             return header("Proxy-Authorization", value);
         }
         
-        header range(const std::string& value) {
+        header header::range(const value_string_type& value) {
             return header("Range", value);
         }
         
-        header referer(const std::string& value) {
+        header header::referer(const value_string_type& value) {
             return header("Referer", value);
         }
         
-        header te(const std::string& value) {
+        header header::te(const value_string_type& value) {
             return header("TE", value);
         }
         
-        header user_agent(const std::string& value) {
+        header header::user_agent(const value_string_type& value) {
             return header("User-Agent", value);
         }
         
         
         // Response headers
-        header accept_ranges(const std::string& value) {
+        header header::accept_ranges(const value_string_type& value) {
             return header("Accept-Ranges", value);
         }
         
-        header age(const std::string& value) {
+        header header::age(const value_string_type& value) {
             return header("Age", value);
         }
         
-        header etag(const std::string& value) {
+        header header::etag(const value_string_type& value) {
             return header("ETag", value);
         }
         
-        header location(const std::string& value) {
+        header header::location(const value_string_type& value) {
             return header("Location", value);
         }
         
-        header proxy_authenticate(const std::string& value) {
+        header header::proxy_authenticate(const value_string_type& value) {
             return header("Proxy-Authenticate", value);
         }
         
-        header retry_after(const std::string& value) {
+        header header::retry_after(const value_string_type& value) {
             return header("Retry-After", value);
         }
         
-        header server(const std::string& value) {
+        header header::server(const value_string_type& value) {
             return header("Server", value);
         }
         
-        header vary(const std::string& value) {
+        header header::vary(const value_string_type& value) {
             return header("Vary", value);
         }
         
-        header www_authenticate(const std::string& value) {
+        header header::www_authenticate(const value_string_type& value) {
             return header("WWW-Authenticate", value);
         }
         

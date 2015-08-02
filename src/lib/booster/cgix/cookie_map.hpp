@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <system_error>
+#include <booster/cgix/cookie.hpp>
 
 namespace booster {
     namespace cgix {
@@ -13,11 +14,16 @@ namespace booster {
             
             typedef std::string string_type;
             typedef std::map<string_type,string_type> map_type;
+            typedef map_type::const_iterator const_iterator;
             
             static std::error_condition from_string(cookie_map& cookies, const string_type& cookie_string);
             
-            bool has(const string_type& name) const;
+            bool is_set(const string_type& name) const;
             string_type get(const string_type& name) const;
+            void set(const cookie& ck);
+            
+            const_iterator begin() const;
+            const_iterator end() const;
             
         private:
             

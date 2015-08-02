@@ -14,6 +14,10 @@ namespace booster {
             
             virtual ~session_storage() {};
             
+            virtual string_type session_cookie_name() const {
+                return "SESSION";
+            }
+            
             virtual bool has_session(const string_type& session_id) = 0;
             virtual bool is_session_expired(const string_type& session_id) = 0;
             virtual string_type generate_session_id() = 0;

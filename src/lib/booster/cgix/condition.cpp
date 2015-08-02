@@ -7,6 +7,10 @@ namespace booster
         
         condition::~condition() {}
         
+        bool condition::operator()(const booster::cgix::request& req) {
+            return false;
+        }
+        
     }
 }
 

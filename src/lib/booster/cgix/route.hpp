@@ -2,6 +2,7 @@
 #define BOOSTER_CGIX_ROUTE_HPP_INCLUDED
 
 #include <booster/cgix/connection.hpp>
+#include <booster/cgix/request_method.hpp>
 #include <type_traits>
 
 namespace booster {

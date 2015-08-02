@@ -5,15 +5,13 @@ namespace booster {
     namespace cgix {
         
         class request;
-        
-        // TODO: Put common conditions in here.
-        
+
         class condition
         {
         public:
             
-            virtual ~condition();
-            virtual bool operator ()(const request& request) = 0;
+            virtual ~condition() = 0;
+            virtual bool operator ()(const request& request);
             
         };
         

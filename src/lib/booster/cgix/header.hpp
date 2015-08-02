@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <string>
 #include <booster/cgix/error_condition.hpp>
+#include <booster/cgix/ci_string.hpp>
 
 namespace booster
 {
@@ -12,6 +13,9 @@ namespace booster
         
         class header {
         public:
+            
+            typedef std::basic_string<char, ci_char_traits> name_string_type;
+            typedef std::string value_string_type;
             
             // Utility
             static bool is_char(char c);
@@ -23,128 +27,132 @@ namespace booster
             static bool is_text(const char *c, size_t length);
             
             // Returns 0 for no LWS or >0 for the no. of LWS characters to replace with a space.
-            static std::size_t is_lws(const char *c, size_t length);
+            static std::size_t lws_length(const char *c, size_t length);
             static std::size_t is_reverse_lws(const char *c, size_t length);
-            static std::error_condition from_string(header& h, const std::string& header_string);
+            static std::error_condition from_string(header& h, const value_string_type& header_string);
             
             // Lifecycle
-            header(const std::string& name, const std::string& value);
+            // TODO: name_string_type and value_string_type
+            
+            header(const name_string_type& name, const value_string_type& value);
             
             // Accessors
-            const std::string& name() const;
-            const std::string& value() const;
+            const name_string_type& name() const;
+            const value_string_type& value() const;
             
             // Conversion
-            operator std::string() const;
+            operator value_string_type() const;
+            
+            // Entity headers
+            static header allow(const value_string_type& value);
+            
+            static header content_encoding(const value_string_type& value);
+            
+            static header content_language(const value_string_type& value);
+            
+            static header content_length(const value_string_type& value);
+            
+            static header content_location(const value_string_type& value);
+            
+            static header content_md5(const value_string_type& value);
+            
+            static header content_range(const value_string_type& value);
+            
+            static header content_type(const value_string_type& value);
+            
+            static header expires(const value_string_type& value);
+            
+            static header last_modified(const value_string_type& value);
+            
+            
+            // General headers
+            // connection_header() is used instead of connection()
+            // as the connection class uses the same name.
+            static header connection_header(const value_string_type& value);
+            
+            static header date(const value_string_type& value);
+            
+            static header pragma(const value_string_type& value);
+            
+            static header trailer(const value_string_type& value);
+            
+            static header transfer_encoding(const value_string_type& value);
+            
+            static header upgrade(const value_string_type& value);
+            
+            static header via(const value_string_type& value);
+            
+            static header warning(const value_string_type& value);
+            
+            
+            // Request headers
+            static header accept(const value_string_type& value);
+            
+            static header accept_charset(const value_string_type& value);
+            
+            static header accept_encoding(const value_string_type& value);
+            
+            static header accept_language(const value_string_type& value);
+            
+            static header authorization(const value_string_type& value);
+            
+            static header cache_control(const value_string_type& value);
+            
+            static header expect(const value_string_type& value);
+            
+            static header from(const value_string_type& value);
+            
+            static header host(const value_string_type& value);
+            
+            static header if_match(const value_string_type& value);
+            
+            static header if_modified_since(const value_string_type& value);
+            
+            static header if_none_match(const value_string_type& value);
+            
+            static header if_range(const value_string_type& value);
+            
+            static header if_unmodified_since(const value_string_type& value);
+            
+            static header max_forwards(const value_string_type& value);
+            
+            static header proxy_authorization(const value_string_type& value);
+            
+            static header range(const value_string_type& value);
+            
+            static header referer(const value_string_type& value);
+            
+            static header te(const value_string_type& value);
+            
+            static header user_agent(const value_string_type& value);
+            
+            
+            // Response headers
+            static header accept_ranges(const value_string_type& value);
+            
+            static header age(const value_string_type& value);
+            
+            static header etag(const value_string_type& value);
+            
+            static header location(const value_string_type& value);
+            
+            static header proxy_authenticate(const value_string_type& value);
+            
+            static header retry_after(const value_string_type& value);
+            
+            static header server(const value_string_type& value);
+            
+            static header vary(const value_string_type& value);
+            
+            static header www_authenticate(const value_string_type& value);
             
         private:
             
-            std::string name_;
-            std::string value_;
+            name_string_type name_;
+            value_string_type value_;
             
         };
-        
-        // Entity headers
-        header allow(const std::string& value);
-        
-        header content_encoding(const std::string& value);
-        
-        header content_language(const std::string& value);
-        
-        header content_length(const std::string& value);
-        
-        header content_location(const std::string& value);
-        
-        header content_md5(const std::string& value);
-        
-        header content_range(const std::string& value);
-        
-        header content_type(const std::string& value);
-        
-        header expires(const std::string& value);
-        
-        header last_modified(const std::string& value);
-        
-        
-        // General headers
-        header connection(const std::string& value);
-        
-        header date(const std::string& value);
-        
-        header pragma(const std::string& value);
-        
-        header trailer(const std::string& value);
-        
-        header transfer_encoding(const std::string& value);
-        
-        header upgrade(const std::string& value);
-        
-        header via(const std::string& value);
-        
-        header warning(const std::string& value);
-        
-        
-        // Request headers
-        header accept(const std::string& value);
-        
-        header accept_charset(const std::string& value);
-        
-        header accept_encoding(const std::string& value);
-        
-        header accept_language(const std::string& value);
-        
-        header authorization(const std::string& value);
-        
-        header cache_control(const std::string& value);
-        
-        header expect(const std::string& value);
-        
-        header from(const std::string& value);
-        
-        header host(const std::string& value);
-        
-        header if_match(const std::string& value);
-        
-        header if_modified_since(const std::string& value);
-        
-        header if_none_match(const std::string& value);
-        
-        header if_range(const std::string& value);
-        
-        header if_unmodified_since(const std::string& value);
-        
-        header max_forwards(const std::string& value);
-        
-        header proxy_authorization(const std::string& value);
-        
-        header range(const std::string& value);
-        
-        header referer(const std::string& value);
-        
-        header te(const std::string& value);
-        
-        header user_agent(const std::string& value);
-        
-        
-        // Response headers
-        header accept_ranges(const std::string& value);
-        
-        header age(const std::string& value);
-        
-        header etag(const std::string& value);
-        
-        header location(const std::string& value);
-        
-        header proxy_authenticate(const std::string& value);
-        
-        header retry_after(const std::string& value);
-        
-        header server(const std::string& value);
-        
-        header vary(const std::string& value);
-        
-        header www_authenticate(const std::string& value);
-        
+
     }
 }
 

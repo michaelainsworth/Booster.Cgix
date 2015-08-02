@@ -35,6 +35,8 @@ namespace booster {
                     return "The file session storage directory does not exist or was not a directory.";
                 case error::implementation_required:
                     return "The functionality specified must be implemented by users of the library.";
+                case error::connection_not_initialized:
+                    return "The connection to the server has not yet been initialized.";
                 default:
                     return "An unknown error occurred.";
             }

@@ -7,31 +7,31 @@ namespace booster {
     
     namespace cgix {
         
-        cookie::cookie(const std::string& name, const std::string& value) : name_(name), value_(value), domain_(""), path_("/"), secure_(false), http_only_(false), seconds_(0) {}
+        cookie::cookie(const string_type& name, const string_type& value) : name_(name), value_(value), domain_(""), path_("/"), secure_(false), http_only_(false), seconds_(0) {}
         
-        cookie::cookie(const std::string& name, const std::string& value, bool secure, bool http_only,
+        cookie::cookie(const string_type& name, const string_type& value, bool secure, bool http_only,
                        duration seconds) : name_(name), value_(value), domain_(""), path_("/"), secure_(secure),
         http_only_(http_only), seconds_(seconds) {}
         
-        cookie::cookie(const std::string& name, const std::string& value, duration seconds)
+        cookie::cookie(const string_type& name, const string_type& value, duration seconds)
         : name_(name), value_(value), domain_(""), path_("/"), secure_(false), http_only_(false), seconds_(seconds) {}
         
-        cookie::cookie(const std::string& name, const std::string& value, const std::string& domain, const std::string& path, bool secure, bool http_only, duration seconds) : name_(name), value_(value), domain_(domain),
+        cookie::cookie(const string_type& name, const string_type& value, const string_type& domain, const string_type& path, bool secure, bool http_only, duration seconds) : name_(name), value_(value), domain_(domain),
         path_ (path), secure_(secure), http_only_(http_only), seconds_(seconds) {}
         
-        const std::string& cookie::name() const {
+        const cookie::string_type& cookie::name() const {
             return name_;
         }
         
-        const std::string& cookie::value() const {
+        const cookie::string_type& cookie::value() const {
             return value_;
         }
         
-        const std::string& cookie::domain() const {
+        const cookie::string_type& cookie::domain() const {
             return domain_;
         }
         
-        const std::string& cookie::path() const {
+        const cookie::string_type& cookie::path() const {
             return path_;
         }
         
@@ -47,7 +47,7 @@ namespace booster {
             return seconds_;
         }
         
-        cookie::operator std::string() const {
+        cookie::operator string_type() const {
             percent_coder pe;
             
             std::ostringstream str;
@@ -64,7 +64,7 @@ namespace booster {
             if (secure_) str << "; Secure";
             if (http_only_) str << "; HttpOnly";
             
-            return "Set-Cookie: " + str.str();
+            return str.str();
         }
         
     }

@@ -5,7 +5,7 @@ namespace booster
     namespace cgix
     {
         
-        router::router(const std::initializer_list<basic_route*> routes) : routes_(routes) {}
+        router::router(const basic_route_ptr_vector& routes) : routes_(routes) {}
             
         bool router::delegate(connection& con) {
             for (auto &r : routes_) {
@@ -15,6 +15,14 @@ namespace booster
             }
             
             return false;
+        }
+        
+        route& router::on(request_method method, const std::string& uri) {
+            
+        }
+        
+        route& router::on(request_method method, const std::regex& pattern) {
+            
         }
         
     }

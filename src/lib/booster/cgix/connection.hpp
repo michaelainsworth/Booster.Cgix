@@ -1,9 +1,6 @@
 #ifndef BOOSTER_CGIX_CONNECTION_HPP_INCLUDED
 #define BOOSTER_CGIX_CONNECTION_HPP_INCLUDED
 
-#include <booster/cgix/request.hpp>
-// TODO: Re-enable
-//#include <booster/cgix/response.hpp>
 #include <memory>
 
 namespace booster {
@@ -15,18 +12,25 @@ namespace booster {
         class connection {
         public:
             
-            typedef std::shared_ptr<request> request_shared_ptr;
-            typedef std::shared_ptr<response> response_shared_ptr;
+            friend class gateway;
             
-            connection(request* req, response* resp);
+            connection();
+            ~connection();
             
             const request& request() const;
             response& response() const;
             
         private:
             
-            request_shared_ptr request_;
-            response_shared_ptr response_;
+            connection(const connection& rhs) = delete;
+            connection& operator =(const connection& rhs) = delete;
+            
+            // To be accessed by gateway.
+            void set(class request* req, class response* resp);
+            void clear();
+            
+            class request* req_;
+            class response* resp_;
             
         };
         

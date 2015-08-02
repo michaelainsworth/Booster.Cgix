@@ -15,12 +15,18 @@ namespace booster {
             
             header_map();
             
-            typedef std::basic_string<char, ci_char_traits> key_string_type;
+            typedef std::basic_string<char, ci_char_traits> name_string_type;
             typedef std::string value_string_type;
-            typedef std::map<key_string_type,value_string_type> map_type;
+            typedef std::map<name_string_type,value_string_type> map_type;
+            typedef map_type::const_iterator const_iterator;
             
-            bool is_set(const key_string_type& name) const;
-            value_string_type get(const key_string_type& name) const;
+            const_iterator begin() const;
+            const_iterator end() const;
+            
+            bool is_set(const name_string_type& name) const;
+            value_string_type get(const name_string_type& name) const;
+            void set(const name_string_type& name, const value_string_type& value);
+            void unset(const name_string_type& name);
             
         private:
             

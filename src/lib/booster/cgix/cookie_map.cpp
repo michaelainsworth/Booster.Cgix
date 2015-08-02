@@ -13,8 +13,8 @@ namespace booster {
             map_type string_map;
             
             for (string_type::size_type i = 0, s = cookie_string.length(); i < s; ++i) {
-                if (header::is_lws(&cookie_string[i], s - i)) {
-                    i += header::is_lws(&cookie_string[i], s - i);
+                if (header::lws_length(&cookie_string[i], s - i)) {
+                    i += header::lws_length(&cookie_string[i], s - i);
                 } else if (header::is_token(cookie_string[i])) {
                     string_type::size_type start = i;
                     while (i < s && header::is_token(cookie_string[i])) ++i;
@@ -74,8 +74,8 @@ namespace booster {
                             }
                             ++i;
                             
-                            if (i < s && header::is_lws(&cookie_string[i], s - i)) {
-                                i += header::is_lws(&cookie_string[i], s - i);
+                            if (i < s && header::lws_length(&cookie_string[i], s - i)) {
+                                i += header::lws_length(&cookie_string[i], s - i);
                             }
                         }
                         
@@ -91,7 +91,7 @@ namespace booster {
             return error::ok;
         }
         
-        bool cookie_map::has(const string_type& name) const {
+        bool cookie_map::is_set(const string_type& name) const {
             return cookies_.find(name) != cookies_.end();
         }
         
@@ -102,6 +102,18 @@ namespace booster {
             }
             
             return it->second;
+        }
+        
+        void cookie_map::set(const cookie& ck) {
+            cookies_[ck.name()] = ck;
+        }
+        
+        cookie_map::const_iterator cookie_map::begin() const {
+            return cookies_.begin();
+        }
+        
+        cookie_map::const_iterator cookie_map::end() const {
+            return cookies_.end();
         }
         
     }
