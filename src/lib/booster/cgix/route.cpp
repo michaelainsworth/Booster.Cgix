@@ -3,7 +3,17 @@
 namespace booster {
     namespace cgix {
 
-        basic_route::~basic_route() {}
+        route::route(condition_function condition, handler_function handler) :
+            condition_(condition), handler_(handler) {}
+        
+        bool route::handle_if_match(connection& con) {
+            if (!condition_(con)) {
+                return false;
+            }
+            
+            handler_(con);
+            return true;
+        }
         
     }
 }

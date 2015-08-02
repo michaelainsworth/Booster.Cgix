@@ -6,45 +6,29 @@
 namespace booster {
     namespace cgix {
         
-        connection::connection() : req_(0), resp_(0) {}
+        connection::connection() {}
         
-        connection::~connection() {
-            clear();
+        connection::connection(class request* request, class response* response) :
+            request_(request), response_(response) {}
+        
+        connection::operator bool() const {
+            return request_ && response_;
         }
         
-        void connection::clear() {
-            if (req_) {
-                delete req_;
-                req_ = 0;
-            }
-            
-            if (resp_) {
-                delete resp_;
-                resp_ = 0;
-            }
-        }
-        
-        const request& connection::request() const {
-            if (!req_) {
+        request& connection::request() {
+            if (!request_) {
                 throw std::system_error(error::connection_not_initialized);
             }
             
-            return *req_;
+            return *request_;
         }
         
-        response& connection::response() const {
-            if (!resp_) {
+        response& connection::response() {
+            if (!response_) {
                 throw std::system_error(error::connection_not_initialized);
             }
             
-            return *resp_;
-        }
-        
-        void connection::set(class request* req, class response* resp) {
-            clear();
-            
-            req_ = req;
-            resp_ = resp;
+            return *response_;
         }
         
     }

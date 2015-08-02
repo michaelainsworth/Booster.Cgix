@@ -1,28 +1,43 @@
 #include <booster/cgix/router.hpp>
+#include <booster/cgix/request.hpp>
 
-namespace booster
-{
-    namespace cgix
-    {
+namespace booster {
+    namespace cgix {
         
-        router::router(const basic_route_ptr_vector& routes) : routes_(routes) {}
-            
-        bool router::delegate(connection& con) {
+        router& router::on(const route::condition_function& condition,
+                           const route::handler_function& handler) {
+            routes_.push_back(route(condition, handler));
+            return *this;
+        }
+        
+        void router::clear() {
+            routes_.clear();
+        }
+
+        bool router::delegate(connection con) {
             for (auto &r : routes_) {
-                if (r->handle_if_match(con)) {
+                if (r.handle_if_match(con)) {
                     return true;
                 }
             }
             
             return false;
         }
-        
-        route& router::on(request_method method, const std::string& uri) {
-            
+
+        router& router::on(request_method method, const std::string& uri,
+                           const route::handler_function& handler) {
+            return on([method, uri](connection& con) -> bool {
+                const request& req = con.request();
+                return (req.method() == method && req.uri() == uri);
+            }, handler);
         }
         
-        route& router::on(request_method method, const std::regex& pattern) {
-            
+        router& router::on(request_method method, const std::regex& pattern,
+                   const route::handler_function& handler) {
+            return on([method, pattern](connection& con) -> bool {
+                const request& req = con.request();
+                return req.method() == method && std::regex_match(req.uri(), pattern);
+            }, handler);
         }
         
     }

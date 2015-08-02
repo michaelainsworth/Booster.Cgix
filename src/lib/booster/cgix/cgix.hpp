@@ -4,7 +4,6 @@
 #include <booster/cgix/application.hpp>
 #include <booster/cgix/ci_string.hpp>
 #include <booster/cgix/condition.hpp>
-#include <booster/cgix/condition_uri_regex.hpp>
 #include <booster/cgix/connection.hpp>
 #include <booster/cgix/cookie.hpp>
 #include <booster/cgix/cookie_map.hpp>

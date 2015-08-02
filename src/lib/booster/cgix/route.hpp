@@ -4,54 +4,65 @@
 #include <booster/cgix/connection.hpp>
 #include <booster/cgix/request_method.hpp>
 #include <type_traits>
+#include <functional>
 
 namespace booster {
     namespace cgix {
         
-        class basic_route {
-        public:
-            
-            virtual ~basic_route();
-            virtual bool handle_if_match(connection& con) = 0;
-            
-        };
-     
-        template<typename C, typename H>
+        // =====================================================================
+        // Class: route
+        // =====================================================================
+        //
+        // The route class is responsible for encapsulating a 'condition'
+        // function and a 'handler' function, both represented using the
+        // std::function class template.
+        //
+        // The 'condition' function accepts a reference to a connection object
+        // and returns true if the handler should be invoked and false if the
+        // handler should not be invoked.
+        //
+        // The 'handler' function accepts a reference to a connection object
+        // but does not return a value. It should use the values in the request
+        // object (such as request headers, cookies, the request body, etc) to
+        // send information back to the client (e.g., headers, cookies, HTML,
+        // JSON-encoded content, etc).
         class route {
         public:
             
-            typedef C condition_type;
-            typedef H handler_type;
+            // -----------------------------------------------------------------
+            // Typedefs
+            // -----------------------------------------------------------------
             
-            route(condition_type condition, handler_type handler);
-            virtual ~route();
+            typedef std::function<bool(connection&)> condition_function;
+            typedef std::function<void(connection&)> handler_function;
+
+            // -----------------------------------------------------------------
+            // Lifecycle
+            // -----------------------------------------------------------------
             
-            virtual bool handle_if_match(connection& con) const;
+            route(condition_function condition, handler_function handler);
+            
+            // -----------------------------------------------------------------
+            // Public functions
+            // -----------------------------------------------------------------
+            
+            // If the condition function returns false, the handle_if_match()
+            // function will return false. If the condition function returns
+            // true, the handler function will be invoked and true will be
+            // returned.
+            bool handle_if_match(connection& con);
             
         protected:
             
-            condition_type condition_;
-            handler_type handler_;
+            // -----------------------------------------------------------------
+            // Variables
+            // -----------------------------------------------------------------
+            
+            condition_function condition_;
+            handler_function handler_;
             
         };
-        
-        template<typename C, typename H>
-        route<C,H>::route(condition_type condition, handler_type handler) :
-            condition_(condition), handler_(handler) {}
-        
-        template<typename C, typename H>
-        route<C,H>::~route() {}
-        
-        template<typename C, typename H>
-        bool route<C,H>::handle_if_match(connection& con) const {
-            if (condition_(con.request())) {
-                handler_(con);
-                return true;
-            }
-            
-            return false;
-        }
-        
+
     }
 }
 

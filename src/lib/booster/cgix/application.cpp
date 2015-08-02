@@ -1,38 +1,40 @@
 #include <booster/cgix/application.hpp>
 #include <booster/cgix/connection.hpp>
 #include <booster/cgix/request.hpp>
+#include <vector>
+#include <thread>
 
-namespace booster
-{
-    namespace cgix
-    {
+namespace booster {
+    namespace cgix {
 
         application::application(gateway& gw) : gw_(gw) {}
         
         application::~application() {}
         
+        void application::setup_routes() {}
+        
         void application::run() {
-            router r(get_routes());
+            clear();
+            setup_routes();
+            
+            bool is_threaded = gw_.is_threaded();
             connection con;
             
-            while (gw_.get_connection(con)) {
-                if (!r.delegate(con)) {
-                    request_unhandled(con);
+            auto delegator = [this](connection con){
+                if (!this->delegate(con)) {
+                    this->connection_not_handled(con);
+                }
+            };
+            
+            while ((con = gw_.get_connection())) {
+                if (is_threaded) {
+                    std::thread(std::bind(delegator, con)).detach();
+                } else {
+                    delegator(con);
                 }
             }
-        }
-        
-        basic_route* application::connect(request_method method, const std::string& request_uri) {
-            // TODO: Finish
-            auto c = [method, request_uri](connection& con) -> bool {
-                return con.request().method() == method && con.request().uri() == request_uri;
-            };
             
-            auto h = [](connection& con) -> void {
-                
-            };
-            
-            return new route<bool(*)(connection&),void(*)(connection&)>(c, h);
+            // TODO: If threaded, wait for all threads to join!
         }
         
     }
