@@ -2,7 +2,7 @@
 #define BOOSTER_CGIX_SESSION_STORAGE_HPP_INCLUDED
 
 #include <string>
-#include <booster/cgix/error_condition.hpp>
+#include <booster/cgix/error.hpp>
 
 namespace booster {
     namespace cgix {

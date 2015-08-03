@@ -1,8 +1,7 @@
 #include <booster/cgix/cookie_map.hpp>
 #include <booster/cgix/percent_coder.hpp>
 #include <booster/cgix/header.hpp>
-// TODO: Rename this to error.hpp
-#include <booster/cgix/error_condition.hpp>
+#include <booster/cgix/error.hpp>
 
 namespace booster {
     namespace cgix {

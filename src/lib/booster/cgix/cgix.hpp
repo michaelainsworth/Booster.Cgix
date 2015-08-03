@@ -8,7 +8,7 @@
 #include <booster/cgix/cookie.hpp>
 #include <booster/cgix/cookie_map.hpp>
 #include <booster/cgix/environment.hpp>
-#include <booster/cgix/error_condition.hpp>
+#include <booster/cgix/error.hpp>
 #include <booster/cgix/file_session_storage.hpp>
 #include <booster/cgix/gateway.hpp>
 #include <booster/cgix/handler.hpp>

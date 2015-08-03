@@ -4,7 +4,7 @@
 #include <string>
 #include <booster/cgix/connection.hpp>
 #include <booster/cgix/cookie_map.hpp>
-#include <booster/cgix/error_condition.hpp>
+#include <booster/cgix/error.hpp>
 
 namespace booster {
     namespace cgix {

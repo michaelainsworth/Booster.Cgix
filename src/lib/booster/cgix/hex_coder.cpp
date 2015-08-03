@@ -1,5 +1,5 @@
 #include <booster/cgix/hex_coder.hpp>
-#include <booster/cgix/error_condition.hpp>
+#include <booster/cgix/error.hpp>
 #include <sstream>
 
 namespace booster

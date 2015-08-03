@@ -1,5 +1,5 @@
 #include <booster/cgix/header_map.hpp>
-#include <booster/cgix/error_condition.hpp>
+#include <booster/cgix/error.hpp>
 #include <unistd.h>
 using namespace std;
 

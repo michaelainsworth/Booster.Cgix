@@ -7,8 +7,6 @@
 namespace booster {
     namespace cgix {
         
-        // TODO: Rename this file to just error.{hpp,cpp}
-        
         class error_category;
         
         enum class error {

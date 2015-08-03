@@ -1,5 +1,5 @@
 #include <booster/cgix/connection.hpp>
-#include <booster/cgix/error_condition.hpp>
+#include <booster/cgix/error.hpp>
 #include <booster/cgix/request.hpp>
 #include <booster/cgix/response.hpp>
 

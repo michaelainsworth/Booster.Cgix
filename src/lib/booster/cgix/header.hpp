@@ -3,7 +3,7 @@
 
 #include <cstddef>
 #include <string>
-#include <booster/cgix/error_condition.hpp>
+#include <booster/cgix/error.hpp>
 #include <booster/cgix/ci_string.hpp>
 
 namespace booster
