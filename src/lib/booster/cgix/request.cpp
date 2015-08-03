@@ -8,6 +8,15 @@ namespace booster
     namespace cgix
     {
         
+        const std::string request::get("GET");
+        const std::string request::head("HEAD");
+        const std::string request::post("POST");
+        const std::string request::put("PUT");
+        const std::string request::delete_("DELETE");
+        const std::string request::trace("TRACE");
+        const std::string request::connect("CONNECT");
+        const std::string request::options("OPTIONS");
+        
         request::request() {
             std::string cookies_string = environment::get("HTTP_COOKIE");
             if (cookies_string.length()) {
@@ -21,11 +30,7 @@ namespace booster
             // TODO: Refactor the parse_headers() call above.
         }
         
-        request_method request::method() const {
-            return string_to_request_method(environment::get("REQUEST_METHOD"));
-        }
-        
-        std::string request::method_string() const {
+        std::string request::method() const {
             return environment::get("REQUEST_METHOD");
         }
         

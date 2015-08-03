@@ -5,7 +5,6 @@
 #include <string>
 #include <booster/cgix/header_map.hpp>
 #include <booster/cgix/cookie_map.hpp>
-#include <booster/cgix/request_method.hpp>
 
 namespace booster {
     namespace cgix {
@@ -13,13 +12,21 @@ namespace booster {
         class request {
         public:
             
+            static const std::string get;
+            static const std::string head;
+            static const std::string post;
+            static const std::string put;
+            static const std::string delete_;
+            static const std::string trace;
+            static const std::string connect;
+            static const std::string options;
+            
             // Lifecycle
             request();
             virtual ~request();
             
             // Basic informational methods
-            virtual request_method method() const;
-            virtual std::string method_string() const;
+            virtual std::string method() const;
             virtual std::string uri() const;
             virtual std::string query_string() const;
             virtual std::string content_type() const;

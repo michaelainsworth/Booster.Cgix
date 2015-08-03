@@ -1,13 +1,12 @@
 #ifndef BOOSTER_CGIX_ROUTE_HPP_INCLUDED
 #define BOOSTER_CGIX_ROUTE_HPP_INCLUDED
 
-#include <booster/cgix/connection.hpp>
-#include <booster/cgix/request_method.hpp>
-#include <type_traits>
 #include <functional>
 
 namespace booster {
     namespace cgix {
+        
+        class connection;
         
         // =====================================================================
         // Class: route

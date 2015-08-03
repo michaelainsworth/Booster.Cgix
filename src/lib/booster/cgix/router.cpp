@@ -24,7 +24,7 @@ namespace booster {
             return false;
         }
 
-        router& router::on(request_method method, const std::string& uri,
+        router& router::on(const std::string& method, const std::string& uri,
                            const route::handler_function& handler) {
             return on([method, uri](connection& con) -> bool {
                 const request& req = con.request();
@@ -32,7 +32,7 @@ namespace booster {
             }, handler);
         }
         
-        router& router::on(request_method method, const std::regex& pattern,
+        router& router::on(const std::string& method, const std::regex& pattern,
                    const route::handler_function& handler) {
             return on([method, pattern](connection& con) -> bool {
                 const request& req = con.request();

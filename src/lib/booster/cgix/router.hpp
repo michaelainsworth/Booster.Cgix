@@ -5,7 +5,6 @@
 #include <type_traits>
 #include <initializer_list>
 #include <booster/cgix/connection.hpp>
-#include <booster/cgix/request_method.hpp>
 // TODO: Given that route/router use std::function, is handler necessary???
 #include <booster/cgix/handler.hpp>
 #include <booster/cgix/route.hpp>
@@ -75,7 +74,7 @@ namespace booster {
             // For example, this method could be used to map a HTTP "GET"
             // request to "/mything" to a certain function.
             
-            router& on(request_method method, const std::string& uri,
+            router& on(const std::string& method, const std::string& uri,
                        const route::handler_function& handler);
             
             // This method takes a request method, a regular expression and a
@@ -86,7 +85,7 @@ namespace booster {
             // For example, this method can be used to map a HTTP "PUT" request
             // to "^/user/[0-9]+/profile$".
             
-            router& on(request_method method, const std::regex& pattern,
+            router& on(const std::string& method, const std::regex& pattern,
                        const route::handler_function& handler);
             
         private:
