@@ -25,6 +25,10 @@ namespace booster
             return string_to_request_method(environment::get("REQUEST_METHOD"));
         }
         
+        std::string request::method_string() const {
+            return environment::get("REQUEST_METHOD");
+        }
+        
         std::string request::uri() const {
             return environment::get("REQUEST_URI");
         }

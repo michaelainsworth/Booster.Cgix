@@ -19,6 +19,7 @@ namespace booster {
             
             // Basic informational methods
             virtual request_method method() const;
+            virtual std::string method_string() const;
             virtual std::string uri() const;
             virtual std::string query_string() const;
             virtual std::string content_type() const;
