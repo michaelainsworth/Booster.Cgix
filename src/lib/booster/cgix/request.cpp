@@ -42,9 +42,9 @@ namespace booster
             return environment::get("QUERY_STRING");
         }
         
-        std::string request::content_type() const {
-            // TODO: Use an enum class?
-            return environment::get("CONTENT_TYPE");
+        ci_string request::content_type() const {
+            std::string content_type = environment::get("CONTENT_TYPE");
+            return ci_string(content_type.c_str(), content_type.length());
         }
         
         std::string request::document_root() const {

@@ -17,6 +17,8 @@ namespace booster {
             
         };
         
+        typedef std::basic_string<char, ci_char_traits> ci_string;
+        
     }
 }
 

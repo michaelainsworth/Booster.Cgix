@@ -60,9 +60,6 @@ namespace booster {
             // connection. If the connection is uninitialized, this method
             // throws a std::system_error.
             
-            // TODO: Implement throwing of system error for request() and
-            // response() methods.
-            
             request& request();
             
             // The response() method returns the response associated with the

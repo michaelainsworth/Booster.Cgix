@@ -32,7 +32,6 @@ namespace booster
             static std::error_condition from_string(header& h, const value_string_type& header_string);
             
             // Lifecycle
-            // TODO: name_string_type and value_string_type
             
             header(const name_string_type& name, const value_string_type& value);
             

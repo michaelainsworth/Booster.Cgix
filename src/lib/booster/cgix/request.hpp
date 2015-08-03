@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <string>
+#include <booster/cgix/ci_string.hpp>
 #include <booster/cgix/header_map.hpp>
 #include <booster/cgix/cookie_map.hpp>
 
@@ -29,7 +30,7 @@ namespace booster {
             virtual std::string method() const;
             virtual std::string uri() const;
             virtual std::string query_string() const;
-            virtual std::string content_type() const;
+            virtual ci_string content_type() const;
             virtual std::string document_root() const;
             virtual std::string gateway_interface() const;
             virtual std::string path() const;

@@ -65,9 +65,6 @@ namespace booster {
             // The loop finishes when the gateway's get_connection() function
             // returns an uninitialised connection.
             
-            // TODO: Document empty connection objects.
-            // TODO: Update the connection class to have an operator bool.
-            
             void run();
             
         protected:
