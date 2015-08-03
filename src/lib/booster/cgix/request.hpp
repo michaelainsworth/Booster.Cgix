@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <string>
+#include <boost/noncopyable.hpp>
 #include <booster/cgix/ci_string.hpp>
 #include <booster/cgix/header_map.hpp>
 #include <booster/cgix/cookie_map.hpp>
@@ -10,8 +11,24 @@
 namespace booster {
     namespace cgix {
         
-        class request {
+        // =====================================================================
+        // Class: request
+        // =====================================================================
+        
+        // The request class represents an HTTP request.
+        //
+        // Each gateway (e.g., CGI, SCGI) should implement a class derived from
+        // the request class.
+        
+        class request : private boost::noncopyable {
         public:
+            
+            // -----------------------------------------------------------------
+            // Static members
+            // -----------------------------------------------------------------
+            
+            // The members below represent the various HTTP request methods.
+            // E.g., "GET", "POST", "PUT", etc.
             
             static const std::string get;
             static const std::string head;
@@ -22,46 +39,47 @@ namespace booster {
             static const std::string connect;
             static const std::string options;
             
+            // -----------------------------------------------------------------
             // Lifecycle
-            request();
-            virtual ~request();
+            // -----------------------------------------------------------------
             
-            // Basic informational methods
-            virtual std::string method() const;
-            virtual std::string uri() const;
-            virtual std::string query_string() const;
-            virtual ci_string content_type() const;
-            virtual std::string document_root() const;
-            virtual std::string gateway_interface() const;
-            virtual std::string path() const;
-            virtual std::string path_ext() const;
-            virtual std::string path_info() const;
-            virtual std::string path_translated() const;
-            virtual std::string remote_address() const;
-            virtual uint16_t remote_port() const;
-            virtual std::string script_filename() const;
-            virtual std::string script_name() const;
-            virtual std::string server_address() const;
-            virtual uint16_t server_port() const;
-            virtual std::string server_admin() const;
-            virtual std::string server_name() const;
-            virtual std::string server_protocol() const;
-            virtual std::string server_signature() const;
-            virtual std::string server_software() const;
-            virtual uint64_t content_length() const;
-            virtual std::istream& input_stream() const;
+            // The destructor for the request class is pure virtual, as the
+            // class is meant to be derived.
             
-            virtual const header_map& headers() const;
-            virtual const cookie_map& cookies() const;
+            virtual ~request() = 0;
             
-        private:
+            // -----------------------------------------------------------------
+            // Main methods
+            // -----------------------------------------------------------------
             
-            // Private copy constructor.
-            request(const request&) = delete;
-            request& operator =(const request&) = delete;
+            // The methods below expose information about the request useful
+            // for processing it.
             
-            header_map headers_;
-            cookie_map cookies_;
+            virtual std::string method() const = 0;
+            virtual std::string uri() const = 0;
+            virtual std::string query_string() const = 0;
+            virtual ci_string content_type() const = 0;
+            virtual std::string document_root() const = 0;
+            virtual std::string gateway_interface() const = 0;
+            virtual std::string path() const = 0;
+            virtual std::string path_ext() const = 0;
+            virtual std::string path_info() const = 0;
+            virtual std::string path_translated() const = 0;
+            virtual std::string remote_address() const = 0;
+            virtual uint16_t remote_port() const = 0;
+            virtual std::string script_filename() const = 0;
+            virtual std::string script_name() const = 0;
+            virtual std::string server_address() const = 0;
+            virtual uint16_t server_port() const = 0;
+            virtual std::string server_admin() const = 0;
+            virtual std::string server_name() const = 0;
+            virtual std::string server_protocol() const = 0;
+            virtual std::string server_signature() const = 0;
+            virtual std::string server_software() const = 0;
+            virtual uint64_t content_length() const = 0;
+            virtual std::istream& input_stream() const = 0;
+            virtual const header_map& headers() const = 0;
+            virtual const cookie_map& cookies() const = 0;
             
         };
         
