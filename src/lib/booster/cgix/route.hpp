@@ -45,10 +45,17 @@ namespace booster {
             // Public functions
             // -----------------------------------------------------------------
             
+            // This method returns the result of the condition function. That
+            // is, it returns true if the connection could be processed by the
+            // handler function.
+            
+            bool does_match(connection& con);
+            
             // If the condition function returns false, the handle_if_match()
             // function will return false. If the condition function returns
             // true, the handler function will be invoked and true will be
             // returned.
+            
             bool handle_if_match(connection& con);
             
         protected:

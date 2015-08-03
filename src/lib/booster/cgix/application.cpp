@@ -13,15 +13,20 @@ namespace booster {
         
         void application::setup_routes() {}
         
-        void application::run() {
+        void application::clear_routes() {
             clear();
+            controllers_.clear();
+        }
+        
+        void application::run() {
+            clear_routes();
             setup_routes();
             
             bool is_threaded = gw_.is_threaded();
             connection con;
             
             auto delegator = [this](connection con){
-                if (!this->delegate(con)) {
+                if (!this->delegate(con, true)) {
                     this->connection_not_handled(con);
                 }
             };

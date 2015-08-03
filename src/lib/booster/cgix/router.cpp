@@ -14,10 +14,14 @@ namespace booster {
             routes_.clear();
         }
 
-        bool router::delegate(connection con) {
+        bool router::delegate(connection con, bool execute_handler) {
             for (auto &r : routes_) {
-                if (r.handle_if_match(con)) {
-                    return true;
+                if (r.does_match(con)) {
+                    if (execute_handler) {
+                        return r.handle_if_match(con);
+                    } else {
+                        return true;
+                    }
                 }
             }
             

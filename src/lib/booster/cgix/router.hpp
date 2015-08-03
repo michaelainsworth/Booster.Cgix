@@ -54,12 +54,15 @@ namespace booster {
             
             void clear();
             
-            // The delegate method loops through the routes and calls the
-            // handler function of the first matching route, using the
-            // route::handle_if_match() function. If the connection is not
-            // handled, false is returned. Otherwise, true is returned.
+            // The delegate method loops through each of the routes and calling
+            // the condition function to determine if the route can handle the
+            // request. If it can handle the request, and execute_handler is
+            // true, the handler will be called and true will be returned. If it
+            // can handle the request but execute_handler is false, true is
+            // returned but the handler is not executed. If no condition
+            // functions return true, this function returns false.
             
-            bool delegate(connection con);
+            bool delegate(connection con, bool execute_handler);
             
             // -----------------------------------------------------------------
             // Convenience routing functions
