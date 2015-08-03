@@ -5,8 +5,6 @@
 #include <type_traits>
 #include <initializer_list>
 #include <booster/cgix/connection.hpp>
-// TODO: Given that route/router use std::function, is handler necessary???
-#include <booster/cgix/handler.hpp>
 #include <booster/cgix/route.hpp>
 #include <regex>
 #include <boost/noncopyable.hpp>

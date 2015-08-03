@@ -8,6 +8,7 @@ namespace booster {
         
         
         // TODO: A class for handling dates according the RFCs mentioned in the cookie document.
+        // Note that perhaps boost might provide this?
         
         class cookie {
         public:
