@@ -8,7 +8,7 @@ namespace booster {
         
         connection::connection() {}
         
-        connection::connection(class request* request, class response* response) :
+        connection::connection(request_shared_ptr request, response_shared_ptr response) :
             request_(request), response_(response) {}
         
         connection::operator bool() const {

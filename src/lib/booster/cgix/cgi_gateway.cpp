@@ -11,13 +11,14 @@ namespace booster {
             if (i > 0) {
                 return connection();
             }
-
-            // TODO: Rename to cgi_request and cgi_response.
-            // TODO: The constructor for the connection should accept shared
-            // pointers in the case where one might throw (e.g., due to memory
-            // constraints).
-            return connection(new cgi_request(), new cgi_response());
+            
             ++i;
+
+            connection::request_shared_ptr request(new cgi_request());
+            connection::response_shared_ptr response(new cgi_response());
+            
+            return connection(request, response);
+            
         }
         
         bool cgi_gateway::is_threaded() {

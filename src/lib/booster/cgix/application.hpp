@@ -83,12 +83,6 @@ namespace booster {
             // -----------------------------------------------------------------
             // Variables
             // -----------------------------------------------------------------
-          
-            // TODO: I don't know about the gateway as a member variable -
-            // how should threads (e.g., via scgi) be abstracted? If this is
-            // the case, what is the difference between a 'controller' and an
-            // 'application'? Perhaps the gateway could have an "is_threaded()"
-            // function?
             
             gateway& gw_;
         

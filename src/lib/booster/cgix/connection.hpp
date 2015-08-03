@@ -42,7 +42,7 @@ namespace booster {
             // initializes the request_ and response_ member variables with
             // these values.
             
-            connection(request* req, response* resp);
+            connection(request_shared_ptr request, response_shared_ptr response);
             
             // -----------------------------------------------------------------
             // Accessors
