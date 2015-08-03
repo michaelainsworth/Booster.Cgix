@@ -3,12 +3,9 @@
 
 #include <string>
 
-namespace booster
-{
-    namespace cgix
-    {
+namespace booster {
+    namespace cgix {
         
-        // TODO: This should eventually be replaced with Booster.Environment.
         class environment
         {
         public:
