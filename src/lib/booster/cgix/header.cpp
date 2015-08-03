@@ -247,7 +247,7 @@ namespace booster
         
         
         // General headers
-        header header::connection_header(const value_string_type& value) {
+        header header::connection(const value_string_type& value) {
             return header("Connection", value);
         }
         
