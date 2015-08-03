@@ -10,23 +10,57 @@
 namespace booster {
     namespace cgix {
         
+        // =====================================================================
+        // Class: header_map
+        // =====================================================================
+        
+        // The header_map class represents a set of HTTP headers.
+        //
+        // It essentially wraps a std::map of strings.
+        
         class header_map {
         public:
             
-            header_map();
-            
+            // -----------------------------------------------------------------
+            // Typedefs
+            // -----------------------------------------------------------------
+
             typedef std::basic_string<char, ci_char_traits> name_string_type;
             typedef std::string value_string_type;
             typedef std::map<name_string_type,value_string_type> map_type;
             typedef map_type::const_iterator const_iterator;
             
-            const_iterator begin() const;
-            const_iterator end() const;
+            // -----------------------------------------------------------------
+            // Lifecycle
+            // -----------------------------------------------------------------
+            
+            header_map();
+
+            // -----------------------------------------------------------------
+            // Accessors and mutators
+            // -----------------------------------------------------------------
+            
+            // The methods below allow access to and modification of the headers
+            // in the collection.
             
             bool is_set(const name_string_type& name) const;
             value_string_type get(const name_string_type& name) const;
             void set(const name_string_type& name, const value_string_type& value);
             void unset(const name_string_type& name);
+            
+            // -----------------------------------------------------------------
+            // Traversal
+            // -----------------------------------------------------------------
+            
+            // The begin() and end() methods allow operations that use
+            // iterators.
+            
+            const_iterator begin() const;
+            const_iterator end() const;
+            
+            // -----------------------------------------------------------------
+            // Variables
+            // -----------------------------------------------------------------
             
         private:
             

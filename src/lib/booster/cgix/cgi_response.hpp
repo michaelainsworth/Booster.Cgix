@@ -42,7 +42,10 @@ namespace booster {
             
         private:
             
+            // -----------------------------------------------------------------
             // Variables
+            // -----------------------------------------------------------------
+            
             bool are_headers_sent_;
             status_type status_;
             header_map headers_;

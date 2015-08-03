@@ -6,6 +6,13 @@
 namespace booster {
     namespace cgix {
         
+        // =====================================================================
+        // Class: ci_char_traits
+        // =====================================================================
+        
+        // This class allows the creation of case_insensitive strings using
+        // std::basic_string. It also supports common std::string traits.
+        
         class ci_char_traits : public std::char_traits<char> {
         public:
             

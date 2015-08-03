@@ -7,6 +7,7 @@
 #include <booster/cgix/cgi_response.hpp>
 #include <booster/cgix/ci_string.hpp>
 #include <booster/cgix/connection.hpp>
+#include <booster/cgix/controller.hpp>
 #include <booster/cgix/cookie.hpp>
 #include <booster/cgix/cookie_map.hpp>
 #include <booster/cgix/environment.hpp>

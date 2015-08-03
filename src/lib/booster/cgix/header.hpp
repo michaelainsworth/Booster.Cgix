@@ -11,13 +11,34 @@ namespace booster
     namespace cgix
     {
         
+        // =====================================================================
+        // Class: header
+        // =====================================================================
+        
+        // The header class encapsulates HTTP headers.
+        //
+        // The header class can be used to send HTTP headers to the web server
+        // (finally to the web browser) via the response class.
+        //
+        // It provides convenience functions for creating headers (e.g.,
+        // header::content_type("application/json").
+        
         class header {
         public:
+            
+            // -----------------------------------------------------------------
+            // Typedefs
+            // -----------------------------------------------------------------
             
             typedef std::basic_string<char, ci_char_traits> name_string_type;
             typedef std::string value_string_type;
             
+            // -----------------------------------------------------------------
             // Utility
+            // -----------------------------------------------------------------
+            
+            // The functions below are used in parsing headers.
+            
             static bool is_char(char c);
             static bool is_ctl(char c);
             static bool is_separator(char c);
@@ -31,18 +52,74 @@ namespace booster
             static std::size_t is_reverse_lws(const char *c, size_t length);
             static std::error_condition from_string(header& h, const value_string_type& header_string);
             
+            // -----------------------------------------------------------------
             // Lifecycle
+            // -----------------------------------------------------------------
             
             header(const name_string_type& name, const value_string_type& value);
             
+            // -----------------------------------------------------------------
             // Accessors
+            // -----------------------------------------------------------------
+            
+            // Returns the name of the header, e.g., "content-type".
+            //
+            // This is returned as a case-insensitive string. This means you can
+            // compare headers more easily. E.g.:
+            //
+            //    if (h.name() == "content-type") { ... }
+            
             const name_string_type& name() const;
+            
+            // Returns the value of the header.
+            //
+            // Note that while HTTP header names are case insensitive, HTTP
+            // header values are not necessarily case sensitive, hence this
+            // function returning a regular std::string.
+            
             const value_string_type& value() const;
             
-            // Conversion
+            // The conversion operator to the string type creates a
+            // fully-formed HTTP header. E.g.:
+            //
+            //    content-type: application/json
+            //
+            // This allows it to be used internally by the response classes
+            // in sending the final header to the web browser.
+            
             operator value_string_type() const;
             
+            // -----------------------------------------------------------------
+            // Variables
+            // -----------------------------------------------------------------
+            
+        private:
+            
+            name_string_type name_;
+            value_string_type value_;
+            
+            // =================================================================
+            // Factory functions
+            // =================================================================
+            
+            // The functions below are used as a convenience method of creating
+            // HTTP headers. E.g., instead of:
+            //
+            //    resp << header("content-type", "application/json");
+            //
+            // You can use:
+            //
+            //    resp << header::content_type("application/json");
+            //
+            // Using such convenience functions will likely reduce the number
+            // of typos.
+            
+        public:
+
+            // -----------------------------------------------------------------
             // Entity headers
+            // -----------------------------------------------------------------
+            
             static header allow(const value_string_type& value);
             
             static header content_encoding(const value_string_type& value);
@@ -63,11 +140,12 @@ namespace booster
             
             static header last_modified(const value_string_type& value);
             
-            
+
+            // -----------------------------------------------------------------
             // General headers
-            // connection_header() is used instead of connection()
-            // as the connection class uses the same name.
-            static header connection_header(const value_string_type& value);
+            // -----------------------------------------------------------------
+            
+            static header connection(const value_string_type& value);
             
             static header date(const value_string_type& value);
             
@@ -83,8 +161,10 @@ namespace booster
             
             static header warning(const value_string_type& value);
             
-            
+            // -----------------------------------------------------------------
             // Request headers
+            // -----------------------------------------------------------------
+            
             static header accept(const value_string_type& value);
             
             static header accept_charset(const value_string_type& value);
@@ -125,8 +205,10 @@ namespace booster
             
             static header user_agent(const value_string_type& value);
             
-            
+            // -----------------------------------------------------------------
             // Response headers
+            // -----------------------------------------------------------------
+            
             static header accept_ranges(const value_string_type& value);
             
             static header age(const value_string_type& value);
@@ -144,11 +226,6 @@ namespace booster
             static header vary(const value_string_type& value);
             
             static header www_authenticate(const value_string_type& value);
-            
-        private:
-            
-            name_string_type name_;
-            value_string_type value_;
             
         };
 

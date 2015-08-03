@@ -6,6 +6,16 @@
 namespace booster {
     namespace cgix {
         
+        // =====================================================================
+        // Class: environment
+        // =====================================================================
+        
+        // The environment class is simply used to encapsulate access to
+        // environment variables.
+        //
+        // This class is used by the cgi_request class in order to return
+        // information sent to the application by the web server.
+        
         class environment
         {
         public:
