@@ -14,8 +14,6 @@ namespace booster {
                     throw std::system_error(e.value(), e.category());
                 }
             }
-            
-            // TODO: Refactor the parse_headers() call above.
         }
         
         std::string cgi_request::method() const {
