@@ -1,5 +1,5 @@
-#ifndef BOOSTER_CGIX_SESSION_STORAGE_HPP_INCLUDED
-#define BOOSTER_CGIX_SESSION_STORAGE_HPP_INCLUDED
+#ifndef BOOSTER_CGIX_SESSION_BACKEND_HPP_INCLUDED
+#define BOOSTER_CGIX_SESSION_BACKEND_HPP_INCLUDED
 
 #include <string>
 #include <booster/cgix/error.hpp>
@@ -8,36 +8,31 @@ namespace booster {
     namespace cgix {
         
         // =====================================================================
-        // Class: session_storage
+        // Class: session_backend
         // =====================================================================
         
-        // The session_storage class is a base template class that is
-        // responsible for managing sessions, including:
+        // The session_backend class is a base template class that is
+        // responsible for managing sessions.
         //
-        // - determining if a session exists.
-        // - determining if an existing session has been expired.
-        // - generating session IDs
-        //
-        // Note that the session_storage class is NOT responsible for encoding
-        // and decoding the session object itself. The boost serialization
-        // library is responsible for this. The A template parameter represents
-        // the boost serialization archive type (e.g., a binary archive or a
-        // text archive).
+        // Note that the session_backend class is NOT responsible for encoding
+        // and decoding the session object itself. The session_traits template
+        // class is responsible for this.
         
-        class session_storage {
+        class session_backend {
         public:
             
             // -----------------------------------------------------------------
             // Typedefs
             // -----------------------------------------------------------------
             
+            typedef std::string encoded_type;
             typedef std::string string_type;
             
             // -----------------------------------------------------------------
             // Lifecycle
             // -----------------------------------------------------------------
             
-            virtual ~session_storage() {};
+            virtual ~session_backend() {};
             
             // -----------------------------------------------------------------
             // Session ID functions
@@ -65,7 +60,7 @@ namespace booster {
             //
             // The reason this method exists is that the web browser could send
             // a phony session ID in order to exploit vulnerabilities. E.g., if
-            // a file-based session_storage object is used, and session files
+            // a file-based session_backend object is used, and session files
             // are stored in the `/tmp` directory, then the user could specify
             // a session of `../passwd` in an attemp to read the contents of the
             // password file. This function is a protection against such
@@ -94,31 +89,26 @@ namespace booster {
             // returns true.
             
             virtual bool is_session_expired(const string_type& session_id) = 0;
-            
+
             // -----------------------------------------------------------------
-            // Session serialization functions
+            // Session saving/loading functions
             // -----------------------------------------------------------------
             
-            template<typename T>
-            void load(const string_type& session_id, T& t);
+            // The load_encoded_session() function returns an encoded version
+            // of the session data from the session ID.
             
-            template<typename T>
-            void save(const string_type& session_id, T& t);
+            virtual encoded_type
+                load_encoded_session(const string_type& session_id) = 0;
+            
+            // The save_encoded_session() function saves the encoded version of
+            // the session.
+            
+            virtual void save_encoded_session(const string_type& session_id,
+                                              const encoded_type& encoded) = 0;
             
         };
-        
-        template<typename T>
-        void session_storage::load(const string_type& session_id, T& t) {
-            // TODO: Use session_traits for serialization and deserialization.
-            throw std::system_error(error::implementation_required);
-        }
-        
-        template<typename T>
-        void session_storage::save(const string_type& session_id, T& t) {
-            throw std::system_error(error::implementation_required);
-        }
         
     }
 }
 
-#endif // #ifndef BOOSTER_CGIX_SESSION_STORAGE_HPP_INCLUDED
+#endif // #ifndef BOOSTER_CGIX_SESSION_BACKEND_HPP_INCLUDED

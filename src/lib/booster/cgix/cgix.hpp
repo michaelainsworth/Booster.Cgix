@@ -12,7 +12,7 @@
 #include <booster/cgix/cookie_map.hpp>
 #include <booster/cgix/environment.hpp>
 #include <booster/cgix/error.hpp>
-#include <booster/cgix/file_session_storage.hpp>
+#include <booster/cgix/file_session_backend.hpp>
 #include <booster/cgix/gateway.hpp>
 #include <booster/cgix/header.hpp>
 #include <booster/cgix/header_map.hpp>
@@ -23,7 +23,7 @@
 #include <booster/cgix/route.hpp>
 #include <booster/cgix/router.hpp>
 #include <booster/cgix/session.hpp>
-#include <booster/cgix/session_storage.hpp>
+#include <booster/cgix/session_backend.hpp>
 
 #endif // #ifndef BOOSTER_CGIX_CGIX_HPP_INCLUDED
 

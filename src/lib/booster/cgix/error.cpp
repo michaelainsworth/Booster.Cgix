@@ -32,7 +32,7 @@ namespace booster {
                 case error::http_headers_already_sent:
                     return "The HTTP headers have already been sent.";
                 case error::session_file_directory_invalid:
-                    return "The file session storage directory does not exist or was not a directory.";
+                    return "The file session storage directory is not a directory.";
                 case error::implementation_required:
                     return "The functionality specified must be implemented by users of the library.";
                 case error::connection_not_initialized:
