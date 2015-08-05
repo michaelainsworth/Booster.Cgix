@@ -1,8 +1,6 @@
 #ifndef BOOSTER_CGIX_HEADER_MAP_HPP_INCLUDED
 #define BOOSTER_CGIX_HEADER_MAP_HPP_INCLUDED
 
-// TODO: Work out what to do re noexcept specs.
-
 #include <map>
 #include <booster/cgix/error.hpp>
 #include <booster/cgix/ci_string.hpp>

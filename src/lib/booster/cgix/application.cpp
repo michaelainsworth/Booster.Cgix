@@ -1,8 +1,9 @@
 #include <booster/cgix/application.hpp>
 #include <booster/cgix/connection.hpp>
 #include <booster/cgix/request.hpp>
-#include <vector>
+#include <list>
 #include <thread>
+#include <memory>
 
 namespace booster {
     namespace cgix {
@@ -31,15 +32,28 @@ namespace booster {
                 }
             };
             
+            typedef std::shared_ptr<std::thread> thread_shared_ptr;
+            typedef std::list<thread_shared_ptr> thread_list;
+            
+            thread_list threads;
+            
             while ((con = gw_.get_connection())) {
                 if (is_threaded) {
-                    std::thread(std::bind(delegator, con)).detach();
+                    thread_shared_ptr thread(new std::thread(std::bind(delegator, con)));
+                    threads.push_back(thread);
                 } else {
                     delegator(con);
                 }
             }
             
-            // TODO: If threaded, wait for all threads to join!
+            // TODO: The list of thread might grow VERY large by the time it
+            // gets to this point. For this reason, it might be worth doing a
+            // clean up, or using an alternative strategy to wait for all
+            // threads to finish.
+            
+            for (auto& thread : threads) {
+                thread->join();
+            }
         }
         
     }
