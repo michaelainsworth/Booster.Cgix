@@ -70,8 +70,8 @@ namespace booster {
             
             typedef std::string session_id_type;
             typedef T  data_type;
-            typedef T* pointer_type;
             typedef T& reference_type;
+            typedef T* pointer_type;
 
             // -----------------------------------------------------------------
             // Constructor
@@ -110,13 +110,9 @@ namespace booster {
             
             reference_type operator *();
             
-            const reference_type operator *() const;
-            
             // The pointer operator returns the address of the session data.
             
             pointer_type operator ->();
-            
-            const pointer_type operator ->() const;
 
             // -----------------------------------------------------------------
             // Variables
@@ -136,7 +132,7 @@ namespace booster {
         
         template<typename T>
         session<T>::session(connection& con, session_backend& backend)
-            : backend_(&backend) {
+            : backend_(backend) {
             
                 const request& req = con.request();
                 const cookie_map& cookies = req.cookies();
@@ -177,7 +173,7 @@ namespace booster {
                 } else {
                     session_backend::encoded_type encoded;
                     encoded = backend_.load_encoded_session(session_id_);
-                    data_ = decode_session_data(encoded);
+                    data_ = decode_session_data<T>(encoded);
                 }
         }
         
@@ -200,17 +196,7 @@ namespace booster {
         }
         
         template<typename T>
-        const typename session<T>::reference_type session<T>::operator *() const {
-            return data_;
-        }
-        
-        template<typename T>
         typename session<T>::pointer_type session<T>::operator ->() {
-            return &data_;
-        }
-        
-        template<typename T>
-        const typename session<T>::pointer_type session<T>::operator ->() const {
             return &data_;
         }
 
