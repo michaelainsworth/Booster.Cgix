@@ -21,7 +21,7 @@ namespace booster {
         // the protected on() methods (of the router class) within the
         // setup_routes() method.
         
-        class application : private boost::noncopyable, protected router {
+        class application : protected router {
         private:
             
             // -----------------------------------------------------------------

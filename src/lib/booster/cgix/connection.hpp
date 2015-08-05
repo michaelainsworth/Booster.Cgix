@@ -60,13 +60,13 @@ namespace booster {
             // connection. If the connection is uninitialized, this method
             // throws a std::system_error.
             
-            request& request();
+            request& get_request();
             
             // The response() method returns the response associated with the
             // connection. If the connection is uninitialized, this method
             // throws a std::system_error.
             
-            response& response();
+            response& get_response();
             
         private:
 

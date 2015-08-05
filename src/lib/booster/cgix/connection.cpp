@@ -15,7 +15,7 @@ namespace booster {
             return request_ && response_;
         }
         
-        request& connection::request() {
+        request& connection::get_request() {
             if (!request_) {
                 throw std::system_error(error::connection_not_initialized);
             }
@@ -23,7 +23,7 @@ namespace booster {
             return *request_;
         }
         
-        response& connection::response() {
+        response& connection::get_response() {
             if (!response_) {
                 throw std::system_error(error::connection_not_initialized);
             }

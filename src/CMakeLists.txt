@@ -2,7 +2,13 @@
 enable_testing()
 
 # Make sure we're using C++11.
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++")
+if(${UNIX})
+    if(${APPLE})
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++")
+    else(${APPLE})
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")
+    endif(${APPLE})
+endif(${UNIX})
 
 # Add support for core Boost libraries.
 find_package(Boost COMPONENTS system filesystem REQUIRED)

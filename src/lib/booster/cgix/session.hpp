@@ -134,9 +134,9 @@ namespace booster {
         session<T>::session(connection& con, session_backend& backend)
             : backend_(backend) {
             
-                const request& req = con.request();
+                const request& req = con.get_request();
                 const cookie_map& cookies = req.cookies();
-                response& resp = con.response();
+                response& resp = con.get_response();
                 
                 if (resp.are_headers_sent()) {
                     throw std::system_error(error::http_headers_already_sent);
