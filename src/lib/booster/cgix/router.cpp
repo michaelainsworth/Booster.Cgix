@@ -13,6 +13,8 @@ namespace booster {
         void router::clear() {
             routes_.clear();
         }
+        
+        router::~router() {}
 
         bool router::delegate(connection con, bool execute_handler) {
             for (auto &r : routes_) {

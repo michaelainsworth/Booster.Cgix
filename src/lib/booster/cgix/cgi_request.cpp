@@ -16,6 +16,8 @@ namespace booster {
             }
         }
         
+        cgi_request::~cgi_request() {}
+        
         std::string cgi_request::method() const {
             return environment::get("REQUEST_METHOD");
         }
