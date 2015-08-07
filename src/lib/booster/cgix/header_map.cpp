@@ -34,6 +34,8 @@ namespace booster {
                     
                     headers_.insert(make_pair(name, value));
                 }
+                
+                ++i;
             }
         }
         
