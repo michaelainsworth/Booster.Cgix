@@ -1,5 +1,5 @@
-#ifndef BOOSTER_CGIX_QUERY_STRING_HPP_INCLUDED
-#define BOOSTER_CGIX_QUERY_STRING_HPP_INCLUDED
+#ifndef BOOSTER_CGIX_QUERY_HPP_INCLUDED
+#define BOOSTER_CGIX_QUERY_HPP_INCLUDED
 
 #include <boost/lexical_cast.hpp>
 #include <map>
@@ -9,12 +9,12 @@ namespace booster {
     namespace cgix {
         
         // =====================================================================
-        // Class: query_string
+        // Class: query
         // =====================================================================
         
-        // The query_string class encapsulates a map of string key/value pairs.
+        // The query class encapsulates a map of string key/value pairs.
         
-        class query_string {
+        class query {
         public:
             
             // -----------------------------------------------------------------
@@ -31,12 +31,12 @@ namespace booster {
             // The default constructor creates an empty query string with no
             // keys and no values.
             
-            query_string();
+            query();
             
             // The string-based constructor parses value, populating the query
             // string with keys and values as appropriate.
             
-            query_string(const string_type& value);
+            query(const string_type& value);
             
             // -----------------------------------------------------------------
             // Accessors
@@ -81,11 +81,11 @@ namespace booster {
         };
         
         // =====================================================================
-        // Implementation: query_string
+        // Implementation: query
         // =====================================================================
         
         template<typename T>
-        bool query_string::is(const string_type& name) const {
+        bool query::is(const string_type& name) const {
             if (!has(name)) {
                 return false;
             }
@@ -101,7 +101,7 @@ namespace booster {
         }
         
         template<typename T>
-        T query_string::get(const string_type& name, const T& default_value) const {
+        T query::get(const string_type& name, const T& default_value) const {
             if (!has(name)) {
                 return default_value;
             }
@@ -111,7 +111,7 @@ namespace booster {
         }
         
         template<typename T>
-        void query_string::set(const string_type& name, const T& value) {
+        void query::set(const string_type& name, const T& value) {
             if (has(name)) {
                 values_.erase(values_.find(name));
             }
@@ -126,4 +126,4 @@ namespace booster {
     }
 }
 
-#endif // #ifndef BOOSTER_CGIX_QUERY_STRING_HPP_INCLUDED
+#endif // #ifndef BOOSTER_CGIX_QUERY_HPP_INCLUDED

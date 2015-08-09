@@ -2,6 +2,7 @@
 #define BOOSTER_CGIX_CGI_REQUEST_HPP_INCLUDED
 
 #include <booster/cgix/request.hpp>
+#include <booster/cgix/query.hpp>
 
 namespace booster {
     namespace cgix {
@@ -50,6 +51,7 @@ namespace booster {
             virtual std::string server_software() const;
             virtual uint64_t content_length() const;
             virtual std::istream& input_stream() const;
+            virtual const query& get_query() const;
             virtual const header_map& headers() const;
             virtual const cookie_map& cookies() const;
             
@@ -59,6 +61,7 @@ namespace booster {
             // Variables
             // -----------------------------------------------------------------
             
+            query query_;
             header_map headers_;
             cookie_map cookies_;
             

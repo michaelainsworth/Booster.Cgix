@@ -11,6 +11,8 @@
 namespace booster {
     namespace cgix {
         
+        class query;
+        
         // =====================================================================
         // Class: request
         // =====================================================================
@@ -78,6 +80,7 @@ namespace booster {
             virtual std::string server_software() const = 0;
             virtual uint64_t content_length() const = 0;
             virtual std::istream& input_stream() const = 0;
+            virtual const query& get_query() const = 0;
             virtual const header_map& headers() const = 0;
             virtual const cookie_map& cookies() const = 0;
             

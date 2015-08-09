@@ -1,4 +1,4 @@
-#include <booster/cgix/query_string.hpp>
+#include <booster/cgix/query.hpp>
 #include <booster/cgix/string_exploder.hpp>
 #include <booster/cgix/percent_coder.hpp>
 #include <vector>
@@ -6,9 +6,9 @@
 namespace booster {
     namespace cgix {
         
-        query_string::query_string() {}
+        query::query() {}
         
-        query_string::query_string(const string_type& value) {
+        query::query(const string_type& value) {
             string_exploder exploder;
             string_exploder::vector_type parts;
             exploder.explode(value, "&", parts);
@@ -30,11 +30,11 @@ namespace booster {
             }
         }
             
-        bool query_string::has(const string_type& name) const {
+        bool query::has(const string_type& name) const {
             return values_.find(name) != values_.end();
         }
 
-        query_string::string_type query_string
+        query::string_type query
         ::operator[](const string_type& name) const {
             if (!has(name)) {
                 return "";

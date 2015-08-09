@@ -111,6 +111,10 @@ namespace booster {
             return std::cin;
         }
         
+        const query& cgi_request::get_query() const {
+            return query_;
+        }
+        
         const header_map& cgi_request::headers() const {
             return headers_;
         }
