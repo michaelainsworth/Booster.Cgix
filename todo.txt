@@ -1,0 +1,26 @@
+TODOs
+=====
+
+* Change the percent\_coder class to operate on iterators (generically). This is important, because we need it to work on iostreams, as the request body function returns an iostream interface.
+
+* Add the request\_body template class.
+
+    const request& req = con.get_request();
+    request_body<multipart_form_data> body;
+    if (!body.read(req)) {
+        // Returned a std::error_condition that failed.
+    } else {
+        // The request body passed. Continue processing.
+        body->is_set("blah"); // Etc. Pointer operator return the multipart_form_data
+        // object.
+    }
+    
+    const request& req = con.get_request();
+    request_body<multipart_form_data> body(req); // Automatically calls read() on the
+                                                 // request, but throws.
+
+* 
+
+* Think about renaming the request.input\_stream() method and response.out() method.
+
+* Think about making the library header-only.
