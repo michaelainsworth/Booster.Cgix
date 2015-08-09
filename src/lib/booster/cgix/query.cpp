@@ -23,8 +23,8 @@ namespace booster {
                 string_type k = pair[0], v = pair.size() > 1 ? pair[1] : "";
                 string_type kk, vv;
                 
-                pe.decode(kk, k);
-                pe.decode(vv, v);
+                kk = pe.decode(k);
+                vv = pe.decode(v);
                 
                 values_[kk] = vv;
             }

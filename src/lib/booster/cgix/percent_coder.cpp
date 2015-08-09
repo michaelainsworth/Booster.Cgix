@@ -42,62 +42,20 @@ namespace booster {
             return true;
         }
         
-        std::string percent_coder::encode(const std::string& s, bool use_plus) {
-            std::string ret;
-            ret.reserve(s.size());
-            hex_coder he;
-            
-            size_t size = s.size();
-            unsigned char c;
-            for (size_t i = 0; i < size; ++i) {
-                c = s[i];
-                if (' ' == c && use_plus) {
-                    ret += '+';
-                } else if (is_reserved(c) || is_unsafe(c)) {
-                    if (use_plus && ' ' == c) {
-                        ret += '+';
-                    } else {
-                        ret += "%";
-                        ret += he.to_hex(c);
-                    }
-                } else {
-                    ret += c;
-                }
-            }
-            
-            return ret;
+        std::string percent_coder::encode(const std::string& unencoded, bool use_plus) {
+            std::string encoded;
+            encode(unencoded.begin(), unencoded.end(), std::back_inserter(encoded), use_plus);
+            return encoded;
         }
         
-        std::error_condition percent_coder::decode(std::string& output, const std::string& s, bool use_plus) {
-            hex_coder he;
+        std::string percent_coder::decode(const std::string& encoded, bool allow_plus) {
+            std::string decoded;
             std::error_condition e;
-            
-            size_t size = s.size();
-            char c;
-            for (size_t i = 0; i < size; ++i) {
-                c = s[i];
-                if ('+' == c && use_plus) {
-                    output += ' ';
-                } else if (c == '%') {
-                    bool is_encoded_char = i < size - 2 && he.is_hex(s[i + 1]) && he.is_hex(s[i + 2]);
-                    if (is_encoded_char) {
-                        std::string hex_char = s.substr(i+1, 2);
-                        e = he.to_char(hex_char, c);
-                        if (!e) {
-                            return e;
-                        }
-                        
-                        output += c;
-                        i += 2;
-                    } else {
-                        return error::percent_sequence_invalid;
-                    }
-                } else {
-                    output += c;
-                }
+            e = decode(encoded.begin(), encoded.end(), std::back_inserter(decoded), allow_plus);
+            if (e) {
+                throw std::system_error(e.value(), e.category());
             }
-            
-            return error::ok;
+            return decoded;
         }
         
     }

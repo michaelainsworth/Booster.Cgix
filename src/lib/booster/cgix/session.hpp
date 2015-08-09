@@ -6,6 +6,8 @@
 #include <booster/cgix/cookie_map.hpp>
 #include <booster/cgix/error.hpp>
 #include <booster/cgix/session_backend.hpp>
+#include <booster/cgix/request.hpp>
+#include <booster/cgix/response.hpp>
 
 namespace booster {
     namespace cgix {

@@ -1,6 +1,3 @@
-# Enable testing.
-enable_testing()
-
 # Make sure we're using C++11.
 if(${UNIX})
     if(${APPLE})
@@ -11,7 +8,7 @@ if(${UNIX})
 endif(${UNIX})
 
 # Add support for core Boost libraries.
-find_package(Boost COMPONENTS system filesystem REQUIRED)
+find_package(Boost COMPONENTS system filesystem unit_test_framework REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIR})
 
@@ -24,6 +21,13 @@ file(GLOB lib_sources "${CMAKE_CURRENT_SOURCE_DIR}/lib/booster/cgix/*.cpp")
 add_library(booster_cgix ${lib_sources} ${lib_headers})
 target_link_libraries(booster_cgix "${Boost_LIBRARIES}")
 
-#file(GLOB test_sources "${CMAKE_SOURCE_DIR}/test/booster/cgix/*/*.cpp")
-#add_executable(booster_cgix_test ${test_sources})
-#target_link_libraries(booster_cgix_test booster_unit_test_framework)
+# Enable testing.
+enable_testing()
+file(GLOB test_sources "${CMAKE_CURRENT_SOURCE_DIR}/test/booster/cgix/*.cpp")
+foreach(test_source ${test_sources})
+    get_filename_component(test_filename "${test_source}" NAME)
+    string(REGEX REPLACE "\\.cpp$" "" test_target "${test_filename}")
+    add_executable("test_${test_target}" ${test_source})
+    target_link_libraries("test_${test_target}" ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${Boost_SYSTEM_LIBRARY} booster_cgix)
+    add_test("test_${test_target}" "test_${test_target}")
+endforeach(test_source)

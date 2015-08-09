@@ -1,7 +1,11 @@
 TODOs
 =====
 
-* Change the percent_coder class to operate on iterators (generically). This is important, because we need it to work on iostreams, as the request body function returns an iostream interface.
+* Add a script to check the line length of all files.
+
+* Check boost documentation on best practices before library submission.
+
+* Remove all "using namespace" statements.
 
 * Add the request_body template class.
 

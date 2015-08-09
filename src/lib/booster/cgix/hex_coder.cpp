@@ -23,7 +23,7 @@ namespace booster
             ss.flags(std::ios::hex);
             ss.fill('0');
             ss.width(2);
-            ss << static_cast<int>(c);
+            ss << std::uppercase << static_cast<int>(c);
             
             return prefix + ss.str();
         }

@@ -46,7 +46,7 @@ namespace booster {
                             }
                             
                             string_type value_to_add;
-                            e = pe.decode(value_to_add, value);
+                            e = pe.decode(value.begin(), value.end(), std::back_inserter(value_to_add), true);
                             if (!e) {
                                 return e;
                             }
@@ -60,7 +60,7 @@ namespace booster {
                             value = cookie_string.substr(start, i - start);
                             
                             string_type value_to_add;
-                            e = pe.decode(value_to_add, value);
+                            e = pe.decode(value.begin(), value.end(), std::back_inserter(value_to_add), true);
                             if (!e) {
                                 return e;
                             }
